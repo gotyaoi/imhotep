@@ -1,6 +1,6 @@
 from sys import exit
 
-from maze import Maze, Walker, Win
+from .. import Maze, Walker, Win
 
 m = Maze(5)
 m._maze = [[13, 14, 8, 10, 9],
@@ -13,11 +13,7 @@ w.power_on()
 w._walker.screen.onkey(exit, 'q')
 w._walker.screen.listen()
 
-### YOUR CHANGES HERE
-
-instructions = []
-
-### END CHANGES
+from ..solution.solution1 import instructions
 
 try:
     w.run(instructions)
