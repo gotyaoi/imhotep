@@ -8,8 +8,8 @@ have a chance. Can you find your way out?
 
 ## Requirements
 
-You need python 3.2 or better. Preferabbly better. Additionally, you need a
-compatible tcl/tk install. On windows this should be bundled with python. On
-Linux, your package manager should have installed these as a dependency of
-python, but check just in case. On OSX, please see
+You need python 3.4 or greater. Additionally, you need a compatible tcl/tk
+install. On windows this should be bundled with python. On Linux, your package
+manager should have installed these as a dependency of python, but check just in
+case. On OSX, please see
 [this python.org page](https://www.python.org/download/mac/tcltk/).
