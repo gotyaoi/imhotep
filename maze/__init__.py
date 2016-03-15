@@ -159,7 +159,7 @@ class Maze:
             imhotep - The maze turtle, positioned in the bottom left cell.
         """
         imhotep = Turtle()
-        imhotep.screen.setworldcoordinates(0, 0, self._size*10+3, self._size*10+3)
+        imhotep.screen.setworldcoordinates(0, 0, self._size*10, self._size*10)
         imhotep.hideturtle()
         imhotep.penup()
         imhotep.speed(0)
