@@ -354,6 +354,10 @@ class Walker:
         for i, instruction in enumerate(instructions):
             if isinstance(instruction, int):
                 repeat = instruction
+            elif isinstance(instruction, list):
+                for _ in range(repeat):
+                    self.run(instruction)
+                repeat = 1
             else:
                 try:
                     self.move(instruction, repeat)
