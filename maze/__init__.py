@@ -5,7 +5,7 @@ Walker - A walker for the Maze.
 """
 from collections import deque
 from random import sample
-from turtle import Turtle
+from turtle import Turtle, TurtleScreen
 
 class WalkerStateError(Exception):
     """An Error for trying to make the Walker do something it's not ready for."""
@@ -158,6 +158,7 @@ class Maze:
         Returns:
             imhotep - The maze turtle, positioned in the bottom left cell.
         """
+        TurtleScreen._RUNNING = True # workaround for python3.5
         imhotep = Turtle()
         imhotep.screen.setworldcoordinates(0, 0, self._size*10, self._size*10)
         imhotep.hideturtle()
