@@ -41,8 +41,8 @@ def main():
                   [5, 5, 12, 1, 5],
                   [6, 2, 3, 7, 7]]
     walker = Walker(maze)
-    screen = walker.getscreen()
     walker.power_on()
+    screen = walker._walker.getscreen()
     screen.onkey(screen.bye, 'q')
     screen.listen()
 
