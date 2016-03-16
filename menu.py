@@ -1,8 +1,6 @@
-import os
 from cmd import Cmd
 from importlib import import_module, reload
 from pathlib import Path
-from subprocess import call
 
 
 class MyCmd(Cmd):
@@ -14,6 +12,8 @@ class MyCmd(Cmd):
 
     def default(self, line):
         cmd, _, line = self.parseline(line)
+        if cmd == 'EOF':
+            print()
         if cmd in self.QUIT:
             return True
         super().default(line)
@@ -38,16 +38,14 @@ class Inner(MyCmd):
         self.exercise = exercise
         self.exercise_module = import_module('maze.exercise.' + exercise)
         self.solution_module = import_module('maze.solution.' + exercise)
-        self.intro = exercise + ':\ninfo\nedit\nrun\nquit'
+        self.intro = exercise + ':\ninfo\nreload\nrun\nquit'
         self.prompt = exercise + '> '
         super().__init__(*args, **kwargs)
 
     def do_info(self, arg):
         print(self.exercise_module.__doc__)
 
-    def do_edit(self, arg):
-        editor = os.environ.get('EDITOR', 'vi')
-        call([editor, 'maze/solution/' + self.exercise + '.py'])
+    def do_reload(self, arg):
         self.solution_module = reload(self.solution_module)
 
     def do_run(self, arg):
