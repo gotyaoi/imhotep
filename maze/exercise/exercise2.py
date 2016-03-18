@@ -18,7 +18,7 @@ specified number of times. Fulan smiles, "Well, that's fairly simple. Care to do
 the honors my friend?"
 """
 
-from .. import Maze, Walker, Win
+from .. import Maze, TooManyInstructions, Walker, Win
 
 def main():
     maze = Maze(5)
@@ -36,9 +36,12 @@ def main():
     from ..solution.exercise2 import instructions
 
     try:
-        walker.run(instructions)
+        walker.run(instructions, 4)
     except Win:
-        print("Congratulations, you made it to the exit! Press q to quit.")
+        msg = "Congratulations, you made it to the exit!"
+    except TooManyInstructions:
+        msg = "The machine refuses to take that many instructions."
     else:
-        print("You didn't make it to the exit. Press q to quit")
+        msg = "You didn't make it to the exit."
+    print("{} Press q to quit.".format(msg))
     screen.mainloop()

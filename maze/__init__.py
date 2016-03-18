@@ -16,7 +16,11 @@ class BadCommandError(Exception):
     pass
 
 class Win(Exception):
-    """An Exceptions to indicate that the win condition has been reached."""
+    """An Exception to indicate that the win condition has been reached."""
+    pass
+
+class TooManyInstructions(Exception):
+    """An Exception to indicate that run has executed too many instructions."""
     pass
 
 class Maze:
@@ -336,7 +340,7 @@ class Walker:
         self._walker.forward(10)
         self._coordinates = (self._coordinates[0]-1, self._coordinates[1])
 
-    def run(self, instructions):
+    def run(self, instructions, limit = 0):
         """Process a list of commands and attempt to move the Walker accordingly.
 
         Positional Arguments:
@@ -350,17 +354,24 @@ class Walker:
         Side Effects:
             May call functions which alter the Walker's coordinates and display.
         """
+        count = 0
         repeat = 1
         for i, instruction in enumerate(instructions):
+            if limit > 0 and count >= limit:
+                raise TooManyInstructions
             if isinstance(instruction, int):
+                count += 1
                 repeat = instruction
             elif isinstance(instruction, list):
                 for _ in range(repeat):
-                    self.run(instruction)
+                    self.run(instruction, limit)
+                count += len(instruction)
                 repeat = 1
             else:
                 try:
                     self.move(instruction, repeat)
                 except (KeyError, TypeError):
                     raise BadCommandError('position {}.'.format(i))
+                count += 1
                 repeat = 1
+        return count
