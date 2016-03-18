@@ -197,6 +197,24 @@ class Maze:
                     imhotep.pendown()
                     imhotep.forward(10)
                     imhotep.penup()
+                if (x, y) == self.north_east:
+                    #draw smaller square
+                    imhotep.setposition(x*10+2, y*10+2)
+                    imhotep.setheading(90)
+                    imhotep.pendown()
+                    for _ in range(4):
+                        imhotep.forward(6)
+                        imhotep.right(90)
+                    #draw an x
+                    imhotep.setheading(45)
+                    imhotep.pendown()
+                    imhotep.setposition(x*10+8, y*10+8)
+                    imhotep.penup()
+                    imhotep.setposition(x*10+2, y*10+8)
+                    imhotep.setheading(-45)
+                    imhotep.pendown()
+                    imhotep.setposition(x*10+8, y*10+2)
+                    imhotep.penup()
         imhotep.screen.tracer(oldtracer)
         imhotep.speed(6)
         imhotep.setposition(5, 5)
