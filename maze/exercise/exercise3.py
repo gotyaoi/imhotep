@@ -17,6 +17,8 @@ directions.
 it answers! It's written in a far more modern dialect than anything else we've
 found in here. How strange." The two of you look at each other and Fulan shrugs.
 "Well, perhaps we'll be able to figure it out once we're out of here."
+
+For this exercise, please edit the file maze/solution/exercise3.py
 """
 
 from .. import Maze, TooManyInstructions, Walker, Win

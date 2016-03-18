@@ -16,6 +16,8 @@ appears that in addition to directions, numbers can also be given to the
 machine. A number will cause the following instruction to be repeated the
 specified number of times. Fulan smiles, "Well, that's fairly simple. Care to do
 the honors my friend?"
+
+For this exercise, please edit the file maze/solution/exercise2.py
 """
 
 from .. import Maze, TooManyInstructions, Walker, Win
