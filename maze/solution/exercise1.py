@@ -4,6 +4,5 @@
 
 # You can input instructions for the machine here, separated by commas.
 # Directions must be quoted strings as described above. Allowable directions
-# are either absolute: 'north', 'east', 'south', 'west' or relative to which
-# way we are currently facing: 'forward', 'right', 'backward', 'left'.
+# are absolute: 'north', 'east', 'south' or 'west'.
 instructions = []
