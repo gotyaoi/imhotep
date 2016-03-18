@@ -20,7 +20,7 @@ the honors my friend?"
 For this exercise, please edit the file maze/solution/exercise2.py
 """
 
-from .. import Maze, TooManyInstructions, Walker, Win
+from .. import Maze, TooManyInstructions, Walker, Win, BadCommand
 
 def main():
     maze = Maze(5)
@@ -43,6 +43,8 @@ def main():
         msg = "Congratulations, you made it to the exit!"
     except TooManyInstructions:
         msg = "The machine refuses to take that many instructions."
+    except BadCommand as err:
+        msg = str(err)
     else:
         msg = "You didn't make it to the exit."
     print("{} Press q to quit.".format(msg))

@@ -11,7 +11,7 @@ class WalkerStateError(Exception):
     """An Error for trying to make the Walker do something it's not ready for."""
     pass
 
-class BadCommandError(Exception):
+class BadCommand(Exception):
     """An Error for a bad command in move's input."""
     pass
 
@@ -358,7 +358,7 @@ class Walker:
         self._walker.forward(10)
         self._coordinates = (self._coordinates[0]-1, self._coordinates[1])
 
-    def run(self, instructions, limit = 0):
+    def run(self, instructions, limit=0):
         """Process a list of commands and attempt to move the Walker accordingly.
 
         Positional Arguments:
@@ -389,7 +389,7 @@ class Walker:
                 try:
                     self.move(instruction, repeat)
                 except (KeyError, TypeError):
-                    raise BadCommandError('position {}.'.format(i))
+                    raise BadCommand('Bad command at position {}.'.format(i))
                 count += 1
                 repeat = 1
         return count
