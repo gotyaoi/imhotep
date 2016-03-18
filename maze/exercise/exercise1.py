@@ -25,10 +25,9 @@ to reflect them exactly.
 
 With Fulan's help, you manage to translate the controls. There's a screen on
 which you can punch in instructions for this frog-machine. Instructions can
-include absolute directions: 'north', 'east', 'south' and 'west', relative
-directions: 'forward', 'right', 'backward' and 'left', and numbers, which will
-multiply the following instruction. This machine will probably prove invaluable
-in escaping your current predicament.
+include absolute directions: 'north', 'east', 'south' and 'west' and relative
+directions: 'forward', 'right', 'backward' and 'left'. This machine will
+probably prove invaluable in escaping your current predicament.
 """
 
 from .. import Maze, Walker, Win
