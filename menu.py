@@ -1,8 +1,11 @@
 """The interactive menu for the maze exercises."""
+import sys
+if sys.version_info.major != 3 or sys.version_info.minor < 4:
+    sys.exit('Python 3.4 or greater is required.')
+
 from cmd import Cmd
 from importlib import import_module, reload
 from pathlib import Path
-
 
 class MyCmd(Cmd):
     """Base class with some specialized exit commands."""
