@@ -4,7 +4,7 @@ Maze - A Maze to be walked through.
 Walker - A walker for the Maze.
 """
 from collections import deque
-from random import sample
+from random import sample, choice
 from turtle import Turtle, TurtleScreen
 
 class WalkerStateError(Exception):
@@ -27,7 +27,8 @@ class Maze:
     """A Randomized DFS maze.
 
     Methods:
-        generate
+        dfs
+        prim
         draw
         can_move
 
@@ -64,8 +65,8 @@ class Maze:
         self.north_east = (size-1, size-1)
         self._maze = [[15 for i in range(size)] for j in range(size)]
 
-    def generate(self):
-        """Perform the randomized DFS to generate the maze.
+    def dfs(self):
+        """Perform randomized DFS to generate the maze.
 
         Uses a stack of generators to perform the backtracking instead of
         recursion. I like big mazes and I cannot lie.
@@ -93,6 +94,28 @@ class Maze:
                 if coordinates == (0, 0):
                     break
                 coordinates, gen = stack.pop()
+
+    def prim(self):
+        """Perform randomized Prim's Algorithm to generate the maze.
+
+        Side Effects:
+            Modifies self._maze in place.
+        """
+        visited = {(0, 0)}
+        candidates = {(0, 1), (1, 0)}
+        while candidates:
+            coordinates = choice(sorted(candidates))
+            neighbors = list(self._neighbors(coordinates))
+            punched = False
+            for neighbor in neighbors:
+                if neighbor in visited:
+                    if not punched:
+                        self._punch_hole(neighbor, coordinates)
+                        punched = True
+                else:
+                    candidates.add(neighbor)
+            candidates.remove(coordinates)
+            visited.add(coordinates)
 
     def _neighbors(self, coordinates):
         """Generate the coordinates of neighboring cells in random order.
