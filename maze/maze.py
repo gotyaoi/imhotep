@@ -4,7 +4,6 @@ Maze - A Maze to be walked through.
 """
 from collections import deque
 from random import sample, choice
-from turtle import Turtle, TurtleScreen
 
 class Maze:
     """A Randomized maze.
@@ -12,7 +11,6 @@ class Maze:
     Methods:
         dfs
         prim
-        draw
         can_move
 
     Attributes:
@@ -161,72 +159,6 @@ class Maze:
                 raise ValueError('Coordinates are not adjacent')
         else:
             raise ValueError('Coordinates are not adjacent')
-
-    def draw(self):
-        """Create a turtle and draw the maze.
-
-        Returns:
-            imhotep - The maze turtle, positioned in the bottom left cell.
-        """
-        TurtleScreen._RUNNING = True # workaround for python3.5
-        imhotep = Turtle()
-        imhotep.screen.setworldcoordinates(0, 0, self._size*10, self._size*10)
-        imhotep.hideturtle()
-        imhotep.penup()
-        imhotep.speed(0)
-        oldtracer = imhotep.screen.tracer()
-        imhotep.screen.tracer(1000)
-        for x in range(self._size):
-            for y in range(self._size):
-                cell = self._maze[x][y]
-                if cell & self._WALLCHECK['north']:
-                    imhotep.setposition(x*10, (y+1)*10)
-                    imhotep.setheading(0)
-                    imhotep.pendown()
-                    imhotep.forward(10)
-                    imhotep.penup()
-                if cell & self._WALLCHECK['east']:
-                    imhotep.setposition((x+1)*10, y*10)
-                    imhotep.setheading(90)
-                    imhotep.pendown()
-                    imhotep.forward(10)
-                    imhotep.penup()
-                if cell & self._WALLCHECK['south']:
-                    imhotep.setposition(x*10, y*10)
-                    imhotep.setheading(0)
-                    imhotep.pendown()
-                    imhotep.forward(10)
-                    imhotep.penup()
-                if cell & self._WALLCHECK['west']:
-                    imhotep.setposition(x*10, y*10)
-                    imhotep.setheading(90)
-                    imhotep.pendown()
-                    imhotep.forward(10)
-                    imhotep.penup()
-                if (x, y) == self.north_east:
-                    #draw smaller square
-                    imhotep.setposition(x*10+2, y*10+2)
-                    imhotep.setheading(90)
-                    imhotep.pendown()
-                    for _ in range(4):
-                        imhotep.forward(6)
-                        imhotep.right(90)
-                    #draw an x
-                    imhotep.setheading(45)
-                    imhotep.pendown()
-                    imhotep.setposition(x*10+8, y*10+8)
-                    imhotep.penup()
-                    imhotep.setposition(x*10+2, y*10+8)
-                    imhotep.setheading(-45)
-                    imhotep.pendown()
-                    imhotep.setposition(x*10+8, y*10+2)
-                    imhotep.penup()
-        imhotep.screen.tracer(oldtracer)
-        imhotep.speed(6)
-        imhotep.setposition(5, 5)
-        imhotep.setheading(90)
-        imhotep.showturtle()
-        return imhotep
 
     def can_move(self, coordinates, direction):
         """Check if we can move from the given coordinates in the given direction.

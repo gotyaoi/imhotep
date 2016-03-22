@@ -28,7 +28,7 @@ class Walker:
         """
         self._maze = maze
         self._coordinates = (0, 0)
-        self._walker = None
+        self._display = None
         self._direction_map = {
             'north': self._north,
             'east': self._east,
@@ -36,14 +36,14 @@ class Walker:
             'west': self._west}
         self._relative_directions = self._RELATIVE_MAP['north']
 
-    def power_on(self):
+    def power_on(self, display):
         """Turn on the Walker's lights, so you can see the Maze.
 
         Side Effects:
-            Initializes self._walker.
+            Initializes self._display.
         """
-        self._walker = self._maze.draw()
-        self._walker.speed(3)
+        self._display = display
+        self._display.draw()
 
     def move(self, direction, distance=1):
         """Attempt to move the walker a number of cells in the given direction.
@@ -66,7 +66,7 @@ class Walker:
         Side Effects:
             May call functions which alter the Walker's coordinates and display.
         """
-        if self._walker is None:
+        if self._display is None:
             raise WalkerStateError('Try calling power_on() first.')
         if direction in self._relative_directions:
             direction = self._relative_directions[direction]
@@ -88,8 +88,7 @@ class Walker:
         Side Effects:
             Alters the Walker's coordinates and display.
         """
-        self._walker.setheading(90)
-        self._walker.forward(10)
+        self._display.north()
         self._coordinates = (self._coordinates[0], self._coordinates[1]+1)
 
     def _east(self):
@@ -98,8 +97,7 @@ class Walker:
         Side Effects:
             Alters the Walker's coordinates and display.
         """
-        self._walker.setheading(0)
-        self._walker.forward(10)
+        self._display.east()
         self._coordinates = (self._coordinates[0]+1, self._coordinates[1])
 
     def _south(self):
@@ -108,8 +106,7 @@ class Walker:
         Side Effects:
             Alters the Walker's coordinates and display.
         """
-        self._walker.setheading(270)
-        self._walker.forward(10)
+        self._display.south()
         self._coordinates = (self._coordinates[0], self._coordinates[1]-1)
 
     def _west(self):
@@ -118,8 +115,7 @@ class Walker:
         Side Effects:
             Alters the Walker's coordinates and display.
         """
-        self._walker.setheading(180)
-        self._walker.forward(10)
+        self._display.west()
         self._coordinates = (self._coordinates[0]-1, self._coordinates[1])
 
     def run(self, instructions, limit=0):

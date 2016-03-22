@@ -23,6 +23,7 @@ For this exercise, please edit the file maze/solution/exercise2.py
 from ..maze import Maze
 from ..walker import Walker
 from ..errors import BadCommand, TooManyInstructions, Win
+from ..displays.turtle_display import TurtleDisplay
 
 def main():
     maze = Maze(5)
@@ -32,10 +33,8 @@ def main():
                   [5, 7, 13, 6, 3],
                   [6, 10, 2, 10, 11]]
     walker = Walker(maze)
-    walker.power_on()
-    screen = walker._walker.getscreen()
-    screen.onkey(screen.bye, 'q')
-    screen.listen()
+    display = TurtleDisplay(maze)
+    walker.power_on(display)
 
     from ..solution.exercise2 import instructions
 
@@ -50,4 +49,4 @@ def main():
     else:
         msg = "You didn't make it to the exit."
     print("{} Press q to quit.".format(msg))
-    screen.mainloop()
+    display.show()

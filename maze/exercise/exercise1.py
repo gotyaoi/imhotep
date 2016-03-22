@@ -35,6 +35,7 @@ For this exercise, please edit the file maze/solution/exercise1.py
 from ..maze import Maze
 from ..walker import Walker
 from ..errors import BadCommand, Win
+from ..displays.turtle_display import TurtleDisplay
 
 def main():
     maze = Maze(5)
@@ -44,10 +45,8 @@ def main():
                   [5, 5, 12, 1, 5],
                   [6, 2, 3, 7, 7]]
     walker = Walker(maze)
-    walker.power_on()
-    screen = walker._walker.getscreen()
-    screen.onkey(screen.bye, 'q')
-    screen.listen()
+    display = TurtleDisplay(maze)
+    walker.power_on(display)
 
     from ..solution.exercise1 import instructions
 
@@ -60,4 +59,4 @@ def main():
     else:
         msg = "You didn't make it to the exit."
     print("{} Press q to quit.".format(msg))
-    screen.mainloop()
+    display.show()

@@ -23,6 +23,7 @@ can't be sure. You get to work and I'll get some gauze ready.
 from ..maze import Maze
 from ..walker import Walker
 from ..errors import BadCommand, Win
+from ..displays.turtle_display import TurtleDisplay
 
 def main():
     maze = Maze(5)
@@ -32,10 +33,8 @@ def main():
                   [12, 8, 0, 9, 7],
                   [7, 7, 7, 6, 11]]
     walker = Walker(maze)
-    walker.power_on()
-    screen = walker._walker.getscreen()
-    screen.onkey(screen.bye, 'q')
-    screen.listen()
+    display = TurtleDisplay(maze)
+    walker.power_on(display)
 
     from ..solution.exercise4 import hand
 
@@ -48,4 +47,4 @@ def main():
     else:
         msg = "You didn't make it to the exit."
     print("{} Press q to quit.".format(msg))
-    screen.mainloop()
+    display.show()
