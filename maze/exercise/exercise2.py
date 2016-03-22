@@ -19,32 +19,16 @@ the honors my friend?"
 
 For this exercise, please edit the file maze/solution/exercise2.py
 """
+from .framework import exercise
 
-from .. import Maze, Walker, TurtleDisplay
-from ..errors import BadCommand, TooManyInstructions, Win
+def user_func(walker):
+    from ..solution.exercise2 import instructions
+    walker.run(instructions, 4)
 
 def main():
-    maze = Maze(5)
-    maze._maze = [[13, 12, 8, 10, 9],
-                  [4, 3, 5, 13, 5],
-                  [5, 12, 3, 5, 5],
-                  [5, 7, 13, 6, 3],
-                  [6, 10, 2, 10, 11]]
-    walker = Walker(maze)
-    display = TurtleDisplay(maze)
-    walker.power_on(display)
-
-    from ..solution.exercise2 import instructions
-
-    try:
-        walker.run(instructions, 4)
-    except Win:
-        msg = "Congratulations, you made it to the exit!"
-    except TooManyInstructions:
-        msg = "The machine refuses to take that many instructions."
-    except BadCommand as err:
-        msg = str(err)
-    else:
-        msg = "You didn't make it to the exit."
-    print("{} Press q to quit.".format(msg))
-    display.show()
+    maze = [[13, 12, 8, 10, 9],
+            [4, 3, 5, 13, 5],
+            [5, 12, 3, 5, 5],
+            [5, 7, 13, 6, 3],
+            [6, 10, 2, 10, 11]]
+    exercise(user_func, fields=maze)

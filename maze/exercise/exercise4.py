@@ -19,30 +19,16 @@ might be possible to manipulate them directly and still manage to control the
 machine." He looks at you grimly. "I don't think you'll lose your hand, but we
 can't be sure. You get to work and I'll get some gauze ready.
 """
+from .framework import exercise
 
-from .. import Maze, Walker, TurtleDisplay
-from ..errors import BadCommand, Win
+def user_func(walker):
+    from ..solution.exercise4 import hand
+    hand(walker.run)
 
 def main():
-    maze = Maze(5)
-    maze._maze = [[12, 10, 10, 8, 11],
-                  [6, 11, 12, 0, 9],
-                  [14, 10, 1, 7, 5],
-                  [12, 8, 0, 9, 7],
-                  [7, 7, 7, 6, 11]]
-    walker = Walker(maze)
-    display = TurtleDisplay(maze)
-    walker.power_on(display)
-
-    from ..solution.exercise4 import hand
-
-    try:
-        hand(walker.run)
-    except Win:
-        msg = "Congratulations, you made it to the exit!"
-    except BadCommand as err:
-        msg = str(err)
-    else:
-        msg = "You didn't make it to the exit."
-    print("{} Press q to quit.".format(msg))
-    display.show()
+    maze = [[12, 10, 10, 8, 11],
+            [6, 11, 12, 0, 9],
+            [14, 10, 1, 7, 5],
+            [12, 8, 0, 9, 7],
+            [7, 7, 7, 6, 11]]
+    exercise(user_func, fields=maze)

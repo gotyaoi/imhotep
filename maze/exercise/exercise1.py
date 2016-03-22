@@ -31,30 +31,16 @@ probably prove invaluable in escaping your current predicament.
 
 For this exercise, please edit the file maze/solution/exercise1.py
 """
+from .framework import exercise
 
-from .. import Maze, Walker, TurtleDisplay
-from ..errors import BadCommand, Win
+def user_func(walker):
+    from ..solution.exercise1 import instructions
+    walker.run(instructions)
 
 def main():
-    maze = Maze(5)
-    maze._maze = [[13, 14, 8, 10, 9],
-                  [6, 9, 5, 12, 1],
-                  [13, 5, 7, 5, 5],
-                  [5, 5, 12, 1, 5],
-                  [6, 2, 3, 7, 7]]
-    walker = Walker(maze)
-    display = TurtleDisplay(maze)
-    walker.power_on(display)
-
-    from ..solution.exercise1 import instructions
-
-    try:
-        walker.run(instructions)
-    except Win:
-        msg = "Congratulations, you made it to the exit!"
-    except BadCommand as err:
-        msg = str(err)
-    else:
-        msg = "You didn't make it to the exit."
-    print("{} Press q to quit.".format(msg))
-    display.show()
+    maze = [[13, 14, 8, 10, 9],
+            [6, 9, 5, 12, 1],
+            [13, 5, 7, 5, 5],
+            [5, 5, 12, 1, 5],
+            [6, 2, 3, 7, 7]]
+    exercise(user_func, fields=maze)

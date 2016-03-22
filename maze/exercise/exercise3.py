@@ -20,32 +20,16 @@ found in here. How strange." The two of you look at each other and Fulan shrugs.
 
 For this exercise, please edit the file maze/solution/exercise3.py
 """
+from .framework import exercise
 
-from .. import Maze, Walker, TurtleDisplay
-from ..errors import BadCommand, TooManyInstructions, Win
+def user_func(walker):
+    from ..solution.exercise3 import instructions
+    walker.run(instructions, 3)
 
 def main():
-    maze = Maze(5)
-    maze._maze = [[14, 9, 14, 10, 9],
-                  [13, 6, 9, 13, 5],
-                  [4, 10, 0, 1, 5],
-                  [5, 14, 3, 6, 1],
-                  [6, 10, 10, 11, 7]]
-    walker = Walker(maze)
-    display = TurtleDisplay(maze)
-    walker.power_on(display)
-
-    from ..solution.exercise3 import instructions
-
-    try:
-        walker.run(instructions, 3)
-    except Win:
-        msg = "Congratulations, you made it to the exit!"
-    except TooManyInstructions:
-        msg = "The machine refuses to take that many instructions."
-    except BadCommand as err:
-        msg = str(err)
-    else:
-        msg = "You didn't make it to the exit."
-    print("{} Press q to quit.".format(msg))
-    display.show()
+    maze = [[14, 9, 14, 10, 9],
+            [13, 6, 9, 13, 5],
+            [4, 10, 0, 1, 5],
+            [5, 14, 3, 6, 1],
+            [6, 10, 10, 11, 7]]
+    exercise(user_func, fields=maze)

@@ -30,7 +30,7 @@ class MyCmd(Cmd):
 class Outer(MyCmd):
     """Menu listing all the exercises."""
 
-    EXERCISES = {x.stem for x in Path('maze/exercise').glob('*.py')}
+    EXERCISES = {x.stem for x in Path('maze/exercise').glob('exercise*')}
 
     intro = '''
      _.mmmmmmmmm._
