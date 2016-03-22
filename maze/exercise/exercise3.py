@@ -21,7 +21,7 @@ found in here. How strange." The two of you look at each other and Fulan shrugs.
 For this exercise, please edit the file maze/solution/exercise3.py
 """
 
-from .. import Maze
+from ..maze import Maze
 from ..walker import Walker
 from ..errors import BadCommand, TooManyInstructions, Win
 
