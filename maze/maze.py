@@ -91,14 +91,13 @@ class Maze:
         candidates = {(0, 1), (1, 0)}
         while candidates:
             coordinates = choice(sorted(candidates))
-            neighbors = list(self._neighbors(coordinates))
             punched = False
-            for neighbor in neighbors:
+            for neighbor in self._neighbors(coordinates):
                 if neighbor in visited:
-                    if not punched:
+                    if not punched and neighbor != self.north_east:
                         self._punch_hole(neighbor, coordinates)
                         punched = True
-                else:
+                elif coordinates != self.north_east:
                     candidates.add(neighbor)
             candidates.remove(coordinates)
             visited.add(coordinates)
