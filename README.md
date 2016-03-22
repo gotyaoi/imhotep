@@ -1,10 +1,11 @@
 # The Maze of Imhotep!
 
 The maze of imhotep is a set of exercises designed to introduce python to
-someone who has not programmed before. It is structured as a series of mazes
-which you must navigate using an ancient maze solving machine you discover near
-the entrance. Luckily, this machine is programmed with python, so you may just
-have a chance. Can you find your way out?
+someone who has not programmed before. It is structured as a series of mazes,
+each one introducing a new concept, which you must navigate using an ancient
+maze solving machine you discover near the entrance. Luckily, this machine is
+programmed with python, so you may just have a chance. Can you find your way
+out?
 
 ## Requirements
 
