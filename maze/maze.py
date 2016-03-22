@@ -46,6 +46,11 @@ class Maze:
         self.north_east = (size-1, size-1)
         self._maze = [[15 for i in range(size)] for j in range(size)]
 
+    @property
+    def size(self):
+        """Read only property for size."""
+        return self._size
+
     def dfs(self):
         """Perform randomized DFS to generate the maze.
 

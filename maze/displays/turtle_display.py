@@ -12,7 +12,7 @@ class TurtleDisplay:
     """
     def __init__(self, maze):
         self._maze = maze
-        self._turtle = None
+        self._imhotep = None
 
     def draw(self):
         """Create a turtle and draw the maze.
@@ -22,40 +22,25 @@ class TurtleDisplay:
         """
         turtle.TurtleScreen._RUNNING = True # workaround for python3.5
         imhotep = turtle.Turtle()
-        imhotep.screen.setworldcoordinates(0, 0, self._maze._size*10, self._maze._size*10)
+        self._imhotep = imhotep
+        imhotep.screen.setworldcoordinates(0, 0, self._maze.size*10, self._maze.size*10)
         imhotep.hideturtle()
         imhotep.penup()
         imhotep.speed(0)
         oldtracer = imhotep.screen.tracer()
         imhotep.screen.tracer(1000)
-        for x in range(self._maze._size):
-            for y in range(self._maze._size):
-                cell = self._maze._maze[x][y]
-                if cell & self._maze._WALLCHECK['north']:
-                    imhotep.setposition(x*10, (y+1)*10)
-                    imhotep.setheading(0)
-                    imhotep.pendown()
-                    imhotep.forward(10)
-                    imhotep.penup()
-                if cell & self._maze._WALLCHECK['east']:
-                    imhotep.setposition((x+1)*10, y*10)
-                    imhotep.setheading(90)
-                    imhotep.pendown()
-                    imhotep.forward(10)
-                    imhotep.penup()
-                if cell & self._maze._WALLCHECK['south']:
-                    imhotep.setposition(x*10, y*10)
-                    imhotep.setheading(0)
-                    imhotep.pendown()
-                    imhotep.forward(10)
-                    imhotep.penup()
-                if cell & self._maze._WALLCHECK['west']:
-                    imhotep.setposition(x*10, y*10)
-                    imhotep.setheading(90)
-                    imhotep.pendown()
-                    imhotep.forward(10)
-                    imhotep.penup()
-                if (x, y) == self._maze.north_east:
+        for x in range(self._maze.size):
+            for y in range(self._maze.size):
+                cell = (x, y)
+                if not self._maze.can_move(cell, 'north'):
+                    self._draw_wall((x*10, (y+1)*10), 0)
+                if not self._maze.can_move(cell, 'east'):
+                    self._draw_wall(((x+1)*10, y*10), 90)
+                if not self._maze.can_move(cell, 'south'):
+                    self._draw_wall((x*10, y*10), 0)
+                if not self._maze.can_move(cell, 'west'):
+                    self._draw_wall((x*10, y*10), 90)
+                if cell == self._maze.north_east:
                     #draw smaller square
                     imhotep.setposition(x*10+2, y*10+2)
                     imhotep.setheading(90)
@@ -81,7 +66,13 @@ class TurtleDisplay:
         screen = imhotep.getscreen()
         screen.onkey(screen.bye, 'q')
         screen.listen()
-        self._turtle = imhotep
+
+    def _draw_wall(self, start, heading):
+        self._imhotep.setposition(*start)
+        self._imhotep.setheading(heading)
+        self._imhotep.pendown()
+        self._imhotep.forward(10)
+        self._imhotep.penup()
 
     def north(self):
         """Move the walker up one cell.
@@ -89,8 +80,8 @@ class TurtleDisplay:
         Side Effects:
             Alters the Walker's coordinates and display.
         """
-        self._turtle.setheading(90)
-        self._turtle.forward(10)
+        self._imhotep.setheading(90)
+        self._imhotep.forward(10)
 
     def east(self):
         """Move the walker right one cell.
@@ -98,8 +89,8 @@ class TurtleDisplay:
         Side Effects:
             Alters the Walker's coordinates and display.
         """
-        self._turtle.setheading(0)
-        self._turtle.forward(10)
+        self._imhotep.setheading(0)
+        self._imhotep.forward(10)
 
     def south(self):
         """Move the walker down one cell.
@@ -107,8 +98,8 @@ class TurtleDisplay:
         Side Effects:
             Alters the Walker's coordinates and display.
         """
-        self._turtle.setheading(270)
-        self._turtle.forward(10)
+        self._imhotep.setheading(270)
+        self._imhotep.forward(10)
 
     def west(self):
         """Move the walker left one cell.
@@ -116,8 +107,9 @@ class TurtleDisplay:
         Side Effects:
             Alters the Walker's coordinates and display.
         """
-        self._turtle.setheading(180)
-        self._turtle.forward(10)
+        self._imhotep.setheading(180)
+        self._imhotep.forward(10)
 
     def show(self):
-        self._turtle.getscreen().mainloop()
+        """Block until user presses q."""
+        self._imhotep.getscreen().mainloop()
