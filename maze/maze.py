@@ -17,14 +17,17 @@ class Maze:
         north_east - The coordinates of the top right cell of the maze.
     """
 
-    # The maze is represented by a double list of 4-bit long ints. Each int
+    # The maze is represented by a double list of 8-bit long ints. Each int
     # represents a cell of the maze and defines the walls around that cell, with
-    # each bit representing a wall. The mapping is 0000 -> WSEN, with a 1 being
-    # a wall and a 0 being no wall. These two dicts are useful for operating on
-    # these ints. Bitwise and with an entry in the _WALLCHECK dict will tell
-    # you if there is a wall in a given direction. Bitwise and with an entry in
-    # the _WALLBREAK dict will return a cell with the given wall removed and the
-    # other walls unchanged.
+    # the lower 4 bits representing a wall and the upper 4 bits representing if
+    # a wall is removable. The mapping is 0000 -> WSEN, with a 1 being a wall
+    # for the lower 4 bits, and a 1 being a toggleable wall for the upper 4
+    # bits. These three dicts are useful for operating on these ints. Bitwise
+    # and with an entry in the _WALLCHECK dict will tell you if there is a wall
+    # in a given direction. Bitwise and with an entry in the _WALLBREAK dict
+    # will return a cell with the given wall removed and the other walls
+    # unchanged. Bitwise and with an entry in the _TOGGLE dict will tell you if
+    # the wall in that direction is toggleable.
     _WALLCHECK = {
         'north': 1,
         'east': 2,
@@ -35,6 +38,11 @@ class Maze:
         'east': 13,
         'south': 11,
         'west': 7}
+    _TOGGLE = {
+        'north': 16,
+        'east': 32,
+        'south': 64,
+        'west': 128}
 
     def __init__(self, size):
         """Initialize the Maze and derive the north_east attribute.
@@ -102,6 +110,12 @@ class Maze:
             candidates.remove(coordinates)
             visited.add(coordinates)
 
+    _RELATIVE_COORDINATES = {
+        'north': lambda x, y: (x, y+1),
+        'east': lambda x, y: (x+1, y),
+        'south': lambda x, y: (x, y-1),
+        'west': lambda x, y: (x-1, y)}
+
     def _neighbors(self, coordinates):
         """Generate the coordinates of neighboring cells in random order.
 
@@ -112,10 +126,9 @@ class Maze:
             neighbor - The coordinates of a random neighboring cell.
         """
         x, y = coordinates
-        neighbors = {'east': (x+1, y),
-                     'west': (x-1, y),
-                     'north': (x, y+1),
-                     'south': (x, y-1)}
+
+        neighbors = {c: f(x, y) for c, f in self._RELATIVE_COORDINATES.items()}
+
         if x == 0:
             del neighbors['west']
         elif x == self._size-1:
@@ -181,4 +194,25 @@ class Maze:
         clear = True
         if self._maze[x][y] & self._WALLCHECK[direction]:
             clear = False
+        return clear
+
+    def toggle(self, coordinates, direction):
+        """Check if we can toggle the given wall of a cell.
+
+        Positional Arguments:
+            coordinates: The coordinates of the cell we are moving from.
+            direction: The direction to try and move.
+
+        Returns:
+            clear - A boolean representing if we can toggle the wall.
+
+        Exceptions:
+            IndexError - Raised if the coordinates are not inside the maze.
+        """
+        x, y = coordinates
+        clear = False
+        if self._maze[x][y] & self._TOGGLE[direction]:
+            self._punch_hole(coordinates,
+                             self._RELATIVE_COORDINATES[direction](x, y))
+            clear = True
         return clear

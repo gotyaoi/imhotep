@@ -32,14 +32,9 @@ class TurtleDisplay:
         for x in range(self._maze.size):
             for y in range(self._maze.size):
                 cell = (x, y)
-                if not self._maze.can_move(cell, 'north'):
-                    self._draw_wall((x*10, (y+1)*10), 0)
-                if not self._maze.can_move(cell, 'east'):
-                    self._draw_wall(((x+1)*10, y*10), 90)
-                if not self._maze.can_move(cell, 'south'):
-                    self._draw_wall((x*10, y*10), 0)
-                if not self._maze.can_move(cell, 'west'):
-                    self._draw_wall((x*10, y*10), 90)
+                for direction in ['north', 'east', 'south', 'west']:
+                    if not self._maze.can_move(cell, direction):
+                        self._draw_wall(cell, direction)
                 if cell == self._maze.north_east:
                     #draw smaller square
                     imhotep.setposition(x*10+2, y*10+2)
@@ -67,7 +62,14 @@ class TurtleDisplay:
         screen.onkey(screen.bye, 'q')
         screen.listen()
 
-    def _draw_wall(self, start, heading):
+    _DRAW_START = {
+        'north': lambda x, y: ((x*10, (y+1)*10), 0),
+        'east': lambda x, y: (((x+1)*10, y*10), 90),
+        'south': lambda x, y: ((x*10, y*10), 0),
+        'west': lambda x, y: ((x*10, y*10), 90)}
+
+    def _draw_wall(self, coordinates, direction):
+        start, heading = self._DRAW_START[direction](*coordinates)
         self._imhotep.setposition(*start)
         self._imhotep.setheading(heading)
         self._imhotep.pendown()
@@ -113,3 +115,18 @@ class TurtleDisplay:
     def show(self):
         """Block until user presses q."""
         self._imhotep.getscreen().mainloop()
+
+    def toggle(self, coordinates, direction):
+        old_position = self._imhotep.position()
+        old_heading = self._imhotep.heading()
+        self._imhotep.speed(0)
+        stamp = self._imhotep.stamp()
+        self._imhotep.hideturtle()
+        self._imhotep.color('white')
+        self._draw_wall(coordinates, direction)
+        self._imhotep.setposition(old_position)
+        self._imhotep.setheading(old_heading)
+        self._imhotep.speed(3)
+        self._imhotep.showturtle()
+        self._imhotep.color('black')
+        self._imhotep.clearstamp(stamp)

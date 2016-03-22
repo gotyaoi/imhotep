@@ -153,3 +153,8 @@ class Walker:
                 count += 1
                 repeat = 1
         return count
+
+    def open_sesame(self):
+        for direction in ['north', 'east', 'south', 'west']:
+            if self._maze.toggle(self._coordinates, direction):
+                self._display.toggle(self._coordinates, direction)
