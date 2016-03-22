@@ -21,10 +21,8 @@ found in here. How strange." The two of you look at each other and Fulan shrugs.
 For this exercise, please edit the file maze/solution/exercise3.py
 """
 
-from ..maze import Maze
-from ..walker import Walker
+from .. import Maze, Walker, TurtleDisplay
 from ..errors import BadCommand, TooManyInstructions, Win
-from ..displays.turtle_display import TurtleDisplay
 
 def main():
     maze = Maze(5)

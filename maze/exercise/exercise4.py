@@ -20,10 +20,8 @@ machine." He looks at you grimly. "I don't think you'll lose your hand, but we
 can't be sure. You get to work and I'll get some gauze ready.
 """
 
-from ..maze import Maze
-from ..walker import Walker
+from .. import Maze, Walker, TurtleDisplay
 from ..errors import BadCommand, Win
-from ..displays.turtle_display import TurtleDisplay
 
 def main():
     maze = Maze(5)

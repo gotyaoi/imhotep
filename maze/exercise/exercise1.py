@@ -32,10 +32,8 @@ probably prove invaluable in escaping your current predicament.
 For this exercise, please edit the file maze/solution/exercise1.py
 """
 
-from ..maze import Maze
-from ..walker import Walker
+from .. import Maze, Walker, TurtleDisplay
 from ..errors import BadCommand, Win
-from ..displays.turtle_display import TurtleDisplay
 
 def main():
     maze = Maze(5)

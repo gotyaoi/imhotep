@@ -20,10 +20,8 @@ the honors my friend?"
 For this exercise, please edit the file maze/solution/exercise2.py
 """
 
-from ..maze import Maze
-from ..walker import Walker
+from .. import Maze, Walker, TurtleDisplay
 from ..errors import BadCommand, TooManyInstructions, Win
-from ..displays.turtle_display import TurtleDisplay
 
 def main():
     maze = Maze(5)
