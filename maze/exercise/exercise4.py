@@ -20,7 +20,8 @@ machine." He looks at you grimly. "I don't think you'll lose your hand, but we
 can't be sure. You get to work and I'll get some gauze ready.
 """
 
-from .. import Maze, Walker, Win, BadCommand
+from .. import Maze, Walker
+from ..errors import BadCommand, Win
 
 def main():
     maze = Maze(5)

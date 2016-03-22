@@ -32,7 +32,8 @@ probably prove invaluable in escaping your current predicament.
 For this exercise, please edit the file maze/solution/exercise1.py
 """
 
-from .. import Maze, Walker, Win, BadCommand
+from .. import Maze, Walker
+from ..errors import BadCommand, Win
 
 def main():
     maze = Maze(5)

@@ -7,21 +7,7 @@ from collections import deque
 from random import sample, choice
 from turtle import Turtle, TurtleScreen
 
-class WalkerStateError(Exception):
-    """An Error for trying to make the Walker do something it's not ready for."""
-    pass
-
-class BadCommand(Exception):
-    """An Error for a bad command in move's input."""
-    pass
-
-class Win(Exception):
-    """An Exception to indicate that the win condition has been reached."""
-    pass
-
-class TooManyInstructions(Exception):
-    """An Exception to indicate that run has executed too many instructions."""
-    pass
+from .errors import WalkerStateError, BadCommand, TooManyInstructions, Win
 
 class Maze:
     """A Randomized DFS maze.
