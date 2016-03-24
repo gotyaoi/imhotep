@@ -3,9 +3,9 @@ def hand(walker):
     # In python being indented like this is called being inside a block. Make
     # sure anything you write in this exercise is indented by 4 spaces.
 
-    # Inside this block, instead of having the run function, you have and object
+    # Inside this block, instead of having the run function, you have an object
     # called walker, representing the maze walking machine. An object is simply
-    # a container which holds both data, and function that operate on that data.
+    # a container which holds both data and functions that operate on that data.
     # A function that lives in an object is called a method of that object. The
     # run function from last exercise was actually a method of the walker
     # object. To call a method of an object, you can write
