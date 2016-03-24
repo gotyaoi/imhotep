@@ -23,8 +23,8 @@ def hand(walker):
     #     other_stuff()
 
     # note that the statement inside the if is indented. The block inside the if
-    # is only run if the thing the if is checking is True. The else staement is
-    # run if the thing the if is checking is False.
+    # is only run if the thing the if is checking is True. The else statement is
+    # run when the thing the if is checking is False.
 
     # So, how can you use an if statement to find the openable wall and get to
     # the exit.
