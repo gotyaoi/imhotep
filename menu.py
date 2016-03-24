@@ -68,7 +68,7 @@ class Inner(MyCmd):
     def __init__(self, exercise, *args, **kwargs):
         self.exercise = exercise
         self.exercise_module = import_module('maze.exercise.' + exercise)
-        self.solution_module = import_module('maze.solution.' + exercise)
+        self.solution_module = None
         self.intro = '''Available Commands:
 story - {}
 run - {}
@@ -82,8 +82,16 @@ quit - {}'''.format(self.do_story.__doc__, self.do_run.__doc__, self.do_quit.__d
 
     def do_run(self, _):
         """Run the exercise."""
-        self.solution_module = reload(self.solution_module)
-        self.exercise_module.main()
+        try:
+            if self.solution_module is None:
+                self.solution_module = import_module('maze.solution.' + self.exercise)
+            else:
+                self.solution_module = reload(self.solution_module)
+        except SyntaxError as err:
+            print('''You seem to have a syntax error in your solution file:
+{}, Line: {}, Character: {}'''.format(err.args[0], err.args[1][1], err.args[1][2]))
+        else:
+            self.exercise_module.main()
 
 if __name__ == '__main__':
     Outer().cmdloop()
