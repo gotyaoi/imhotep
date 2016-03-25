@@ -9,7 +9,7 @@ def hand(walker):
     # A function that lives in an object is called a method of that object. The
     # run function from last exercise was actually a method of the walker
     # object. To call a method of an object, you can write
-    # "objectname.methodname()".
+    # objectname.methodname()
 
     # Aside from the run method, the walker object also has an open_sesame
     # method. This method takes no arguments, and will open certain walls in the

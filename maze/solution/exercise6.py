@@ -4,8 +4,8 @@ def hand(walker):
     # sure anything you write in this exercise is indented by 4 spaces.
 
     # In this exercise, one of the walls next to the exit is openable, but
-    # which one it is is randomized each time you run the exercise. Luckily,
-    # there's a way to tell if a wall opened when you call open_sesame.
+    # which one it is is randomized each time you type run at the command line.
+    # Luckily, there's a way to tell if a wall opened when you call open_sesame.
 
     # Functions and methods have what's called a return value. This is data that
     # is passed back out of the function when it ends. In the case of
@@ -23,8 +23,8 @@ def hand(walker):
     #     other_stuff()
 
     # note that the statement inside the if is indented. The block inside the if
-    # is only run if the thing the if is checking is True. The else statement is
-    # run when the thing the if is checking is False.
+    # is only executed if the thing the if is checking is True. The else
+    # statement is executed when the thing the if is checking is False.
 
     # So, how can you use an if statement to find the openable wall and get to
     # the exit.

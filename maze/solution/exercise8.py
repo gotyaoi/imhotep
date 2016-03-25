@@ -4,16 +4,16 @@ def hand(walker):
     # sure anything you write in this exercise is indented by 4 spaces.
 
     # In this exercise, one of the eastern walls of this corridor is openable,
-    # but which one it is is randomized each time you run the exercise. You
-    # could write a bunch of if statements to check each one, but there's a more
-    # concise way.
+    # but which one it is is randomized each time you type run at the command
+    # line. You could write a bunch of if statements to check each one, but
+    # there's a more concise way.
 
     # The while statement is sort of like the if statement, but with a twist.
-    # Like the if statement, the block inside the while statement is only run if
-    # the thing the while statement is checking is True. However, when the end
-    # of the while statement's block is reached, it goes back to the top and
-    # checks the condition again. If the condition is still True, it runs the
-    # block again. It does this until the condition is False.
+    # Like the if statement, the block inside the while statement is only
+    # executed if the thing the while statement is checking is True. However,
+    # when the end of the while statement's block is reached, it goes back to
+    # the top and checks the condition again. If the condition is still True,
+    # it executes the block again. It does this until the condition is False.
 
     # while somevariable:
     #    do_stuff()
