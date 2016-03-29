@@ -7,6 +7,10 @@ from cmd import Cmd
 from importlib import import_module, reload
 from pathlib import Path
 
+import readline
+if 'libedit' in readline.__doc__:
+    readline.parse_and_bind("bind ^I rl_complete")
+
 class MyCmd(Cmd):
     """Base class with some specialized exit commands."""
 
