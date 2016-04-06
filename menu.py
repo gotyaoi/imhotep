@@ -14,14 +14,14 @@ if 'libedit' in readline.__doc__:
 class MyCmd(Cmd):
     """Base class with some specialized exit commands."""
 
-    QUIT = {'q', 'exit', 'bye', 'EOF'}
+    _QUIT = {'q', 'exit', 'bye', 'EOF'}
 
     def emptyline(self):
         pass
 
     def default(self, line):
         cmd, _, line = self.parseline(line)
-        if cmd in self.QUIT:
+        if cmd in self._QUIT:
             if cmd == 'EOF':
                 self.stdout.write('\n')
             return True
@@ -34,7 +34,7 @@ class MyCmd(Cmd):
 class Outer(MyCmd):
     """Menu listing all the exercises."""
 
-    EXERCISES = {x.stem for x in Path('maze/exercise').glob('exercise*')}
+    _EXERCISES = [x.stem for x in Path('maze/exercise').glob('exercise*')]
 
     intro = '''
      _.mmmmmmmmm._
@@ -59,12 +59,19 @@ MM'      )MMM(      `MM
 Welcome to the Imhotep menu. Type in commands followed by the enter key.
 Use the command "help" to get a list of available commands, and "help <command>"
 to get help about a specific command. Use the command "quit" to exit the menu.
-Please choose an exercise. Available exercises:\n''' + '\n'.join(sorted(EXERCISES))
+Please choose an exercise. Available exercises:\n''' + '\n'.join(sorted(_EXERCISES))
     prompt = '> '
 
-for _exercise in Outer.EXERCISES:
-    setattr(Outer, 'do_'+_exercise, lambda self, arg, ex=_exercise: Inner(ex).cmdloop())
-    setattr(getattr(Outer, 'do_'+_exercise), '__doc__', 'submenu for {}.'.format(_exercise))
+def _exercise_generator(exercise_name):
+    """Create a do_ function for a given exercise"""
+    def do_exercise(self, _):
+        Inner(exercise_name).cmdloop()
+    do_exercise.__name__ = 'do_' + exercise_name
+    do_exercise.__doc__ = """Submenu for {}.""".format(exercise_name)
+    return do_exercise
+
+for _exercise in Outer._EXERCISES:
+    setattr(Outer, 'do_'+_exercise, _exercise_generator(_exercise))
 
 class Inner(MyCmd):
     """Menu customizable for each exercise."""
