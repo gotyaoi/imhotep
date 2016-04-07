@@ -27,3 +27,6 @@ def main():
     else:
         maze[4][3] += 16
     exercise(user_func, fields=maze)
+
+def register():
+    return {'name': '3_if', 'category': '2_Control_Structures'}

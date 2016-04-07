@@ -19,3 +19,6 @@ def main():
         from ..solution.exercise7 import hand
         hand(walker, rand)
     exercise(user_func, fields=maze)
+
+def register():
+    return {'name': '4_variables', 'category': '2_Control_Structures'}

@@ -4,8 +4,10 @@ if sys.version_info.major != 3 or sys.version_info.minor < 4:
     sys.exit('Python 3.4 or greater is required.')
 
 from cmd import Cmd
-from importlib import import_module, reload
-from pathlib import Path
+from importlib import reload
+
+from maze.exercise.framework import discover
+_REGISTRY = discover()
 
 import readline
 if 'libedit' in readline.__doc__:
@@ -31,10 +33,11 @@ class MyCmd(Cmd):
         """Go up one menu, or quit if this is the top menu."""
         return True
 
+    def get_names(self):
+        return dir(self)
+
 class Outer(MyCmd):
     """Menu listing all the exercises."""
-
-    _EXERCISES = [x.stem for x in Path('maze/exercise').glob('exercise*')]
 
     intro = '''
      _.mmmmmmmmm._
@@ -59,50 +62,68 @@ MM'      )MMM(      `MM
 Welcome to the Imhotep menu. Type in commands followed by the enter key.
 Use the command "help" to get a list of available commands, and "help <command>"
 to get help about a specific command. Use the command "quit" to exit the menu.
-Please choose an exercise. Available exercises:\n''' + '\n'.join(sorted(_EXERCISES))
-    prompt = '> '
+Please choose a category. Available Categories:\n''' + '\n'.join(sorted(_REGISTRY))
+    prompt = '\n> '
 
-def _exercise_generator(exercise_name):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for category in _REGISTRY:
+            # Manually bind the function to the instance.
+            setattr(self, 'do_'+category,
+                    _category_generator(category).__get__(self, Outer))
+
+def _category_generator(category_name):
+    """Create a do_ function for a given category"""
+    def do_category(self, _):
+        Category(category_name).cmdloop()
+    do_category.__name__ = 'do_' + category_name
+    do_category.__doc__ = """Submenu for {}.""".format(category_name)
+    return do_category
+
+class Category(MyCmd):
+    """Menu customizable for each category."""
+    def __init__(self, category, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.intro = 'Available Exercises:\n' + '\n'.join(sorted(_REGISTRY[category]))
+        self.prompt = '\n' + category + '> '
+        for exercise in _REGISTRY[category]:
+            # Manually bind the function to the instance.
+            setattr(self, 'do_'+exercise,
+                    _exercise_generator(category, exercise).__get__(self, Category))
+
+def _exercise_generator(category_name, exercise_name):
     """Create a do_ function for a given exercise"""
     def do_exercise(self, _):
-        Inner(exercise_name).cmdloop()
+        Exercise(category_name, exercise_name).cmdloop()
     do_exercise.__name__ = 'do_' + exercise_name
     do_exercise.__doc__ = """Submenu for {}.""".format(exercise_name)
     return do_exercise
 
-for _exercise in Outer._EXERCISES:
-    setattr(Outer, 'do_'+_exercise, _exercise_generator(_exercise))
-
-class Inner(MyCmd):
+class Exercise(MyCmd):
     """Menu customizable for each exercise."""
 
-    def __init__(self, exercise, *args, **kwargs):
-        self.exercise = exercise
-        self.exercise_module = import_module('maze.exercise.' + exercise)
-        self.solution_module = None
+    def __init__(self, category, exercise, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.modules = _REGISTRY[category][exercise]
         self.intro = '''Available Commands:
 story - {}
 run - {}
 quit - {}'''.format(self.do_story.__doc__, self.do_run.__doc__, self.do_quit.__doc__)
-        self.prompt = exercise + '> '
-        super().__init__(*args, **kwargs)
+        self.prompt = '\n' + category + '/' + exercise + '> '
 
     def do_story(self, _):
         """Print the story and other useful information for this exercise."""
-        print(self.exercise_module.__doc__)
+        print(self.modules[0].__doc__)
 
     def do_run(self, _):
         """Run the exercise."""
         try:
-            if self.solution_module is None:
-                self.solution_module = import_module('maze.solution.' + self.exercise)
-            else:
-                self.solution_module = reload(self.solution_module)
+            self.modules[1] = reload(self.modules[1])
         except SyntaxError as err:
             print('''You seem to have a syntax error in your solution file:
 {}, Line: {}, Character: {}'''.format(err.args[0], err.args[1][1], err.args[1][2]))
         else:
-            self.exercise_module.main()
+            self.modules[0].main()
 
 if __name__ == '__main__':
     Outer().cmdloop()

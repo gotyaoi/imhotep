@@ -44,3 +44,6 @@ def main():
             [5, 5, 12, 1, 5],
             [6, 2, 3, 7, 7]]
     exercise(user_func, fields=maze)
+
+def register():
+    return {'name': '1_string', 'category': '1_Data_Types'}

@@ -18,3 +18,6 @@ def main():
             [6, 11, 6, 2, 11]]
     maze[0][randint(0, 4)] += 32
     exercise(user_func, fields=maze)
+
+def register():
+    return {'name': '5_while', 'category': '2_Control_Structures'}

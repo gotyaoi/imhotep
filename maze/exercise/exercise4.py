@@ -32,3 +32,6 @@ def main():
             [12, 8, 0, 9, 7],
             [7, 7, 7, 6, 11]]
     exercise(user_func, fields=maze)
+
+def register():
+    return {'name': '1_calling_functions', 'category': '2_Control_Structures'}

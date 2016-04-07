@@ -32,3 +32,6 @@ def main():
             [5, 7, 13, 6, 3],
             [6, 10, 2, 10, 11]]
     exercise(user_func, fields=maze)
+
+def register():
+    return {'name': '2_int', 'category': '1_Data_Types'}
