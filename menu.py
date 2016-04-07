@@ -1,15 +1,17 @@
 """The interactive menu for the maze exercises."""
+import readline
 import sys
-if sys.version_info.major != 3 or sys.version_info.minor < 4:
-    sys.exit('Python 3.4 or greater is required.')
 
 from cmd import Cmd
 from importlib import reload
 
 from maze.exercise.framework import discover
+
+if sys.version_info.major != 3 or sys.version_info.minor < 4:
+    sys.exit('Python 3.4 or greater is required.')
+
 _REGISTRY = discover()
 
-import readline
 if 'libedit' in readline.__doc__:
     readline.parse_and_bind("bind ^I rl_complete")
 
@@ -70,15 +72,16 @@ Please choose a category. Available Categories:\n''' + '\n'.join(sorted(_REGISTR
         for category in _REGISTRY:
             # Manually bind the function to the instance.
             setattr(self, 'do_'+category,
-                    _category_generator(category).__get__(self, Outer))
+                    self._generator(category).__get__(self, Outer))
 
-def _category_generator(category_name):
-    """Create a do_ function for a given category"""
-    def do_category(self, _):
-        Category(category_name).cmdloop()
-    do_category.__name__ = 'do_' + category_name
-    do_category.__doc__ = """Submenu for {}.""".format(category_name)
-    return do_category
+    @staticmethod
+    def _generator(category_name):
+        """Create a do_ function for a given category"""
+        def do_category(self, _):
+            Category(category_name).cmdloop()
+        do_category.__name__ = 'do_' + category_name
+        do_category.__doc__ = """Submenu for {}.""".format(category_name)
+        return do_category
 
 class Category(MyCmd):
     """Menu customizable for each category."""
@@ -89,15 +92,16 @@ class Category(MyCmd):
         for exercise in _REGISTRY[category]:
             # Manually bind the function to the instance.
             setattr(self, 'do_'+exercise,
-                    _exercise_generator(category, exercise).__get__(self, Category))
+                    self._generator(category, exercise).__get__(self, Category))
 
-def _exercise_generator(category_name, exercise_name):
-    """Create a do_ function for a given exercise"""
-    def do_exercise(self, _):
-        Exercise(category_name, exercise_name).cmdloop()
-    do_exercise.__name__ = 'do_' + exercise_name
-    do_exercise.__doc__ = """Submenu for {}.""".format(exercise_name)
-    return do_exercise
+    @staticmethod
+    def _generator(category_name, exercise_name):
+        """Create a do_ function for a given exercise"""
+        def do_exercise(self, _):
+            Exercise(category_name, exercise_name).cmdloop()
+        do_exercise.__name__ = 'do_' + exercise_name
+        do_exercise.__doc__ = """Submenu for {}.""".format(exercise_name)
+        return do_exercise
 
 class Exercise(MyCmd):
     """Menu customizable for each exercise."""
